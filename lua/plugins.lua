@@ -35,9 +35,9 @@ require('packer').startup({ function(use)
         end
     }
 
-    use { 'noib3/nvim-cokeline',
+    use { 'akinsho/bufferline.nvim',
         config = function()
-            require('cokeline').setup()
+            require('bufferline').setup()
         end
     }
 
@@ -52,19 +52,20 @@ require('packer').startup({ function(use)
         end
     }
 
-    use {'nvim-telescope/telescope-ui-select.nvim' }
+    use { 'nvim-telescope/telescope-ui-select.nvim' }
 
     use { 'nvim-telescope/telescope.nvim',
-        config = function ()
+        config = function()
             local telescope = require('telescope')
-            telescope.setup{
+            telescope.setup {
                 extensions = {
                     ["ui-select"] = {
-                        require("telescope.themes").get_dropdown { }
+                        require("telescope.themes").get_dropdown {}
                     }
                 }
             }
-            telescope.load_extension("ui-select")
+            telescope.load_extension('ui-select')
+            telescope.load_extension('notify')
         end
     }
 
@@ -76,6 +77,12 @@ require('packer').startup({ function(use)
     }
 
     -- useful for development
+    use { 'windwp/nvim-autopairs',
+        config = function()
+            require('nvim-autopairs').setup()
+        end
+    }
+
     use { 'lukas-reineke/indent-blankline.nvim',
         config = function()
             require("indent_blankline").setup {
@@ -97,7 +104,6 @@ require('packer').startup({ function(use)
     use { 'mfussenegger/nvim-dap',
         requires = {
             'rcarriga/nvim-dap-ui',
-            'mfussenegger/nvim-dap-python'
         },
         config = function()
             local dap, dapui = require("dap"), require("dapui")
@@ -116,16 +122,37 @@ require('packer').startup({ function(use)
         end
     }
 
+    use { 'mfussenegger/nvim-dap-python',
+        requires = { 'mfussenegger/nvim-dap' },
+        config = function()
+            require('dap-python').setup()
+        end
+    }
+
+    use { 'mfussenegger/nvim-jdtls',
+        requires = { 'mfussenegger/nvim-dap' },
+        config = function()
+            require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+        end
+    }
+
+    use { 'leoluz/nvim-dap-go',
+        requires = { 'mfussenegger/nvim-dap' },
+        config = function()
+            require('dap-go').setup()
+        end
+    }
+
     -- code completion and syntax highlighting
     use { 'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
         config = function()
             require('nvim-treesitter.configs').setup {
                 ensure_installed = {
-                    "python", "rust", "go", "gomod", "c", "cpp",
+                    "python", "rust", "go", "gomod", "c_sharp", "c", "cpp",
                     "html", "javascript", "json",
                     "markdown", "yaml",
-                    "bash"
+                    "bash", "dockerfile"
                 }
             }
         end
@@ -137,16 +164,22 @@ require('packer').startup({ function(use)
 
     use { 'simrat39/rust-tools.nvim',
         config = function()
+            local rust_tools     = require('rust-tools')
+            -- local extension_path = vim.fn.stdpath('config') .. '/vscode-lldb/extension/'
+            -- local codelldb_path  = extension_path .. 'adapter/codelldb'
+            -- local liblldb_path   = extension_path .. 'lldb/lib/liblldb.so'
+
             local opts = {
                 dap = {
+                    -- adapter = require('rust-tools.dap').get_codelldb_adapter(codelldb_path, liblldb_path)
                     adapter = {
-                        type = "executable",
-                        command = "/usr/bin/lldb-vscode-11",
-                        name = "rt_lldb"
+                        type = 'executable',
+                        command = '/usr/bin/lldb-vscode-11',
+                        name = 'rt_lldb'
                     }
                 }
             }
-            require('rust-tools').setup(opts)
+            rust_tools.setup(opts)
         end
     }
 
@@ -160,11 +193,11 @@ require('packer').startup({ function(use)
         requires = {
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'hrsh7th/cmp-nvim-lua' },
-            { 'hrsh7th/cmp-vsnip' },
-            { 'hrsh7th/vim-vsnip' },
+            { 'hrsh7th/cmp-cmdline' },
             { 'L3MON4D3/LuaSnip' },
             { 'saadparwaiz1/cmp_luasnip' },
         },
+
         config = function()
             local has_words_before = function()
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -218,6 +251,11 @@ require('packer').startup({ function(use)
                     end, { "i", "s", }),
                 }),
             })
+            cmp.setup.cmdline(':', {
+                sources = {
+                    { name = "cmdline" }
+                }
+            })
         end
     }
 
@@ -234,6 +272,13 @@ require('packer').startup({ function(use)
                 local hl = "DiagnosticSign" .. type
                 vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
             end
+        end
+    }
+
+    use { 'filipdutescu/renamer.nvim',
+        requires = { 'nvim-lua/plenary.nvim' },
+        config = function()
+            require('renamer').setup()
         end
     }
 end,

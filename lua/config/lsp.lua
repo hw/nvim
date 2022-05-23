@@ -34,7 +34,7 @@ require('nvim-lsp-installer').setup { automatic_installation = true }
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local cmp_nvim_lsp = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-local servers = { 'pyright', 'rust_analyzer', 'angularls', 'jdtls', 'gopls', 'clangd', 'html', 'tsserver', 'bashls', 'sumneko_lua' }
+local servers = { 'pyright', 'rust_analyzer', 'angularls', 'gopls', 'clangd', 'html', 'tsserver', 'bashls', 'sumneko_lua' }
 local lspconfig = require('lspconfig')
 for _, lsp in pairs(servers) do
     lspconfig[lsp].setup {

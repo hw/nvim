@@ -1,3 +1,5 @@
+-- see: https://github.com/Pocco81/dap-buddy.nvim/tree/dev-deps/lua/dap-install/core/debuggers
+
 local dap = require('dap')
 
 -- requires: apt install lldb
@@ -17,13 +19,12 @@ local dap_generic_config = {
             return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
         end,
         cwd = '${workspaceFolder}',
-        stopOnEntry = false,
+        stopOnEntry = true,
         args = {},
         runInTerminal = true,
     },
 }
 
-
 dap.configurations.c = dap_generic_config
 dap.configurations.cpp = dap_generic_config
-dap.configurations.rust = dap_generic_config
+-- dap.configurations.rust = dap_generic_config
