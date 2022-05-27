@@ -6,6 +6,7 @@ opt.tabstop = 4
 
 opt.syntax = "ON"
 opt.number = true
+opt.cursorline = true
 opt.signcolumn = "yes:2"
 
 opt.list = true
@@ -13,7 +14,8 @@ opt.listchars:append("trail:·")
 opt.listchars:append("tab:▸ ")
 opt.listchars:append("eol:↴")
 
-opt.completeopt = "noinsert,menuone,noselect"
+opt.clipboard = 'unnamedplus'
+opt.completeopt = "menuone,noinsert,noselect"
 opt.wildmenu = true
 
 opt.mouse = 'a'

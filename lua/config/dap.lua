@@ -19,7 +19,7 @@ local dap_generic_config = {
             return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
         end,
         cwd = '${workspaceFolder}',
-        stopOnEntry = true,
+        stopOnEntry = false,
         args = {},
         runInTerminal = true,
     },

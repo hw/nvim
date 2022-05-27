@@ -23,6 +23,12 @@ Patch font use for terminal:
 <https://www.nerdfonts.com/font-downloads> 
 or use termux styling
 
+```
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
+unzip FiraCode.zip -d ~/.local/share/fonts
+fc-cache -fv
+```
+
 ## Development Environment
 Setup development environments for the various languages. You will need node.js installed for the automatic LsP Installation to work.
 
