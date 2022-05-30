@@ -21,6 +21,23 @@ local function update_diagnostics_signs(signset)
     end
 end
 
+local function start_debugger()
+    local dap = require('dap')
+    if dap.session() then
+        dap.continue()
+    else
+        local buf_filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+        if buf_filetype == "rust" then
+            vim.cmd[[ RustDebuggables ]]
+        elseif buf_filetype == "java" then
+            require('jdtls.dap').setup_dap_main_class_configs()
+            dap.continue()
+        else
+            dap.continue()
+        end
+    end
+end
+
 local M = {
     enable_icons = function()
         update_diagnostics_signs(signs.icons)
@@ -30,7 +47,9 @@ local M = {
     disable_icons = function()
         update_diagnostics_signs(signs.texts)
         require('lualine').setup({ options={ icons_enabled = false } })
-    end
+    end,
+
+    start_debugger = start_debugger
 }
 
 return M;

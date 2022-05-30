@@ -14,7 +14,7 @@ opt.listchars:append("trail:·")
 opt.listchars:append("tab:▸ ")
 opt.listchars:append("eol:↴")
 
-opt.clipboard = 'unnamedplus'
+opt.clipboard = 'unnamed'
 opt.completeopt = "menuone,noinsert,noselect"
 opt.wildmenu = true
 

@@ -395,6 +395,7 @@ require('packer').startup({ function(use)
                             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
                         else
                             if luasnip.jumpable(1) then
+                                vim.notify('Jumpable')
                                 luasnip.jump(1)
                             elseif has_words_before() then
                                 cmp.complete()
